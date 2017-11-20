@@ -28,7 +28,7 @@ function Boid(x,y,ms, mf){
         separateForce.mult(separationSlider.value());
         alignmentForce.mult(alignmentSlider.value());
         cohesionForce.mult(cohesionSlider.value());
-        fleeForce.setMag(0.04);
+        fleeForce.mult(fleeSlider.value());
 
         this.applyForce(separateForce);
         this.applyForce(alignmentForce);
@@ -48,13 +48,18 @@ function Boid(x,y,ms, mf){
     }
 
     this.flee = function(target){
-        var desired = p5.Vector.sub(target, this.position);
-        desired.setMag(-this.maxSpeed);
-
-        var steering = p5.Vector.sub(desired, this.velocity);
-        steering.limit(this.maxForce);
+        if(p5.Vector.dist(target, this.position) < 40){
+            var desired = p5.Vector.sub(target, this.position);
+            desired.setMag(-this.maxSpeed);
         
-        return steering;
+            var steering = p5.Vector.sub(desired, this.velocity);
+            steering.limit(this.maxForce);
+            return steering;
+        }
+        else{
+            return createVector(0,0);
+        }
+        
     }
 
     this.separate = function(boids){
@@ -165,9 +170,8 @@ function Boid(x,y,ms, mf){
         
         fill(lerpColor(from, to, time/100));
         
-        // stroke(200);
-        // strokeWeight(1);
-        noStroke();
+        stroke(200);
+        strokeWeight(1);
         {
             push();
             translate(this.position.x, this.position.y);
