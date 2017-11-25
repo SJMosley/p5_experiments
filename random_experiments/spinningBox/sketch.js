@@ -33,7 +33,6 @@ function draw(){
     else{
         fill(255);
     }
-    console.log(speed/1000);
     rotateX(frameCount * speed/1000);
     rotateY(frameCount * speed/1000);
     box(boxSize,boxSize, boxSize);
