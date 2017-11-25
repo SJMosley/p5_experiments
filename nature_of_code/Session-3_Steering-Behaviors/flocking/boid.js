@@ -163,12 +163,17 @@ function Boid(x,y,ms, mf){
 
     this.display = function(){
         var greenToOrange = true;
-        var time = ((new Date).getTime()%10000)/100;
+        var time = ((new Date).getTime()%10000)/50;
         var theta = this.velocity.heading() + PI/2;
         var from = color(253, 174, 120);
         var to = color(226, 129, 161);
         
-        fill(lerpColor(from, to, time/100));
+        if(time <= 100){
+            fill(lerpColor(from, to, time/100));
+        } else{
+            fill(lerpColor(to, from, time/100));
+        }
+        
         
         stroke(200);
         strokeWeight(1);

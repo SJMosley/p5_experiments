@@ -10,9 +10,10 @@ function setup(){
     // for(var i=0;i<20;i++){
     //     vehicles.push(new Vehicle(random(width), random(height)));
     // }
-
+    createP('');
     createSpan('Seek');
     seekSlider = createSlider(0,5,1, 0.1);
+    createP('');
     createSpan('Separation');
     sepSlider = createSlider(0,5,1, 0.1);
 

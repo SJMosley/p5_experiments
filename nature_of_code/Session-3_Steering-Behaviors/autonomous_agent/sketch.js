@@ -10,11 +10,11 @@ function setup(){
     vehicle = new Vehicle(320,180);
 
     speedSlider = createSlider(3,10,3);
-    speedSlider.position(width/2 - (80+32),height - 48);
+    speedSlider.position(width/2 - (80+36),height + 36);
     speedSlider.style('width', '80px');
 
     arrivalDistanceSlider = createSlider(0,200,0);
-    arrivalDistanceSlider.position(width/2 + 32, height - 48);
+    arrivalDistanceSlider.position(width/2 + 30, height + 36);
     arrivalDistanceSlider.style('width', '80px');
 
 }
