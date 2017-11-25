@@ -53,5 +53,7 @@ function draw(){
 // Move the target if the mouse is pressed
 // System will adapt to new target
 function mousePressed() {
-    population.population.push(new Rocket(createVector(mouseX, mouseY), new DNA()));
+    target.position.x = mouseX;
+    target.position.y = mouseY;
 }
+

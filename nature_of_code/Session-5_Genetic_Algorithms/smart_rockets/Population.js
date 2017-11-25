@@ -8,7 +8,7 @@ function Population(m, num){
     this.best = "";
 
     for(var i=0;i<this.popmax;i++){
-        var location = createVector(width/2, height+20);
+        var location = createVector(width/2, height-20);
         this.population[i] =new Rocket(location, new DNA());
     }
 
@@ -43,11 +43,12 @@ function Population(m, num){
             var n = floor(fitnessNormal * 100);
 
             for (var j = 0; j < n; j++) {
-                this.matingPool.push(this.population[i]);       
+
+                this.matingPool.push(this.population[i]);
             }
         }
     }
-
+    
     this.reproduction = function(){
         for (var i = 0; i < this.population.length; i++) {
             //get two random indeces to pick parents
