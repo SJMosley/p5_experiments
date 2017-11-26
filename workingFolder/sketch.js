@@ -181,10 +181,10 @@ function Spaceship(){
     }
 
     this.shoot = function(){
-        if(this.velocity > 0){
+        if(this.velocity.x != 0 || this.velocity.y != 0){
             this.bullets.push(new Bullet(this.position, this.velocity));
         } else{
-            this.bullets.push(new Bullet(this.position, p5.Vector.fromAngle(this.position.heading()-(PI*0.75)).normalize()));
+            this.bullets.push(new Bullet(this.position, p5.Vector.fromAngle(-PI/2).normalize()));
         }
     }
 
