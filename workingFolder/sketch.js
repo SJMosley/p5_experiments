@@ -7,6 +7,9 @@ function setup(){
     background(40);
 
     spaceship = new Spaceship();
+    for (var i = 0; i < 20; i++) {
+        asteroids.push(new Asteroid(createVector(random(width),random(height)), random(10,40)));
+    }
 }
 
 function draw(){
@@ -16,7 +19,12 @@ function draw(){
     spaceship.run();
 
     for (var i = 0; i < asteroids.length; i++) {
-        asteroids[i].run();
+        if(asteroids[i].remove){
+            var temp = asteroids.splice(i,1);
+            delete temp;
+        } else{
+            asteroids[i].run();
+        }
     }
 }
 
@@ -63,18 +71,18 @@ function Asteroid(_pos, _r, _vel){
     }
     this.display = function(){
         fill(179, 112, 218);
-        rectMode(CENTER);
+        ellipseMode(CENTER);
         ellipse(this.position.x, this.position.y, this.r, this.r);
-        rectMode(CORNER);
+        ellipseMode(CORNER);
     }
 
     this.contains = function(_pos){
         let inX = false;
         let inY = false;
-        if((this.position.x-this.r) < _pos.x && (this.position.x + this.r) > _pos.x){
+        if((this.position.x-this.r) < _pos.x && _pos.x < (this.position.x + this.r)){
             inX = true;
         }
-        if((this.position.y-this.r) < _pos.y && (this.position.y + this.r) > _pos.y){
+        if((this.position.y-this.r) < _pos.y && _pos.y < (this.position.y + this.r) ){
             inY = true;
         }
 
@@ -82,9 +90,12 @@ function Asteroid(_pos, _r, _vel){
     }
 
     this.hit = function(){
-        if(this.r > 8){
+        if(this.r > 32){
             asteroids.push(new Asteroid(this.position, this.r/2));
             asteroids.push(new Asteroid(this.position, this.r/2));
+            this.remove = true;
+        } else{
+            this.remove = true;
         }
     }
 
@@ -102,7 +113,7 @@ function Asteroid(_pos, _r, _vel){
 function Bullet(_pos, _vel){
     this.lifetime = 300;
     this.position = createVector(_pos.x,_pos.y);
-    this.velocity = createVector(_vel.x,_vel.y).setMag(5);
+    this.velocity = createVector(_vel.x,_vel.y).mult(2).limit(8);
     this.r = 3;
     this.remove = false;
 
@@ -128,7 +139,7 @@ function Bullet(_pos, _vel){
         //go through all asteroids see if it hit anything
         for(let i=0;i<asteroids.length;i++){
             if(asteroids[i].contains(this.position)){
-                this.hit = remove;
+                this.remove = false;
                 asteroids[i].hit();
             }
         }
@@ -145,7 +156,7 @@ function Spaceship(){
     this.acceleration = createVector(0,0);
     this.velocity = createVector(0,0);
 
-    this.r = 30;
+    this.r = 10;
     this.maxSpeed = 5;
     this.bullets = [];
     this.bulletMax = 25;
@@ -172,8 +183,19 @@ function Spaceship(){
 
     this.display = function(){
         fill(255);
-        rectMode(CENTER);
-        rect(this.position.x,this.position.y, this.r, this.r);
+
+        //push into new coordinate space context
+        push();
+        translate(this.position.x, this.position.y);
+        rotate(this.velocity.heading()+PI/2);
+        beginShape();
+        vertex(0, -this.r*2);
+        vertex(-this.r, this.r*2);
+        vertex(this.r, this.r*2);
+        endShape(CLOSE);
+
+        pop();
+        
     }
 
     this.die = function(){
@@ -184,7 +206,7 @@ function Spaceship(){
         if(this.velocity.x != 0 || this.velocity.y != 0){
             this.bullets.push(new Bullet(this.position, this.velocity));
         } else{
-            this.bullets.push(new Bullet(this.position, p5.Vector.fromAngle(-PI/2).normalize()));
+            this.bullets.push(new Bullet(this.position, p5.Vector.fromAngle(0).normalize()));
         }
     }
 
@@ -216,7 +238,15 @@ function gameOver(){
     rectMode(CORNER);
     console.log("so this happened");
 }
+function gameWin(){
+    textSize(64);
+    fill(255, 253, 84);
+    rectMode(CENTER);
+    text("YOU WIN!!",width/2, height/2, 364,64);
+    noLoop();
+    rectMode(CORNER);
+}
 
 function mousePressed(){
-    asteroids.push(new Asteroid(createVector(mouseX, mouseY),100, createVector(0,0)));
+    // asteroids.push(new Asteroid(createVector(mouseX, mouseY),100, createVector(0,-4)));
 }
