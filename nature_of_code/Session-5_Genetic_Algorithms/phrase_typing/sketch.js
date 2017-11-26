@@ -1,21 +1,24 @@
-var population,popmax,mutationRate,target;
+var population,popmax,mutationRate,target, phraseInput, phraseTitle, newPhraseButton;
 
 var bestPhrase,allPhrases,stats;
 
 function setup(){
+    phraseTitle = createP('Target Phrase');
+    phraseInput = createInput("target phrase");
+    newPhraseButton = createButton('Set new phrase');
+    newPhraseButton.mousePressed(setPhrase);
+
     bestPhrase = createP("Best Phrase:");
-    bestPhrase.position(10,10);
     bestPhrase.class("best");
 
     allPhrases = createP("All phrases:");
-    allPhrases.position(600,10);
+    allPhrases.position(600,32);
     allPhrases.class("all");
 
     stats = createP("Stats");
-    stats.position(10,200);
     stats.class("stats");
 
-    target = "I love you so much";
+    target = "This is going to be fun";
     popmax = 200;
     mutationRate = 0.01;
 
@@ -51,4 +54,9 @@ function displayInfo(){
     stats.html(statstext);
 
     allPhrases.html("All phrases:<br>"+population.allPhrases());
+}
+
+function setPhrase(){
+    population = new Population(phraseInput.value(),mutationRate,popmax);
+    loop();
 }
