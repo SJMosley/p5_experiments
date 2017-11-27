@@ -55,24 +55,21 @@ function Snake(){
             if(_collect[i].x == this.position.x &&
                 _collect[i].y == this.position.y
             ){
-                console.log(this.body);
+                //find last piece to use for position
                 let lastPiece = this.body[this.body.length-1];
-                let tempColor;
-
+                let color;
                 //recalculate colors
                 for (var j = 0; j < this.body.length+1; j++) {
                     let transition = map(j, 0,this.body.length+1, 0,1);
-                    let color = lerpColor(from, to, transition);
+                    color = lerpColor(from, to, transition);
                     
-                    if(j == this.body.length){
-                        tempColor = color;
-                    } else{
-                        console.log({color});
+                    if(j != this.body.length){
                         this.body[j].color = color;
                     }
                 }
-                console.log({tempColor});
-                this.body.push(new BodyPiece(lastPiece.x, lastPiece.y, this.r, tempColor));
+
+                //add to the tail
+                this.body.push(new BodyPiece(lastPiece.x, lastPiece.y, this.r, color));
             }
         }
     }
