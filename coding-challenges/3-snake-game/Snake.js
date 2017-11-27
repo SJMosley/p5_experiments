@@ -27,6 +27,11 @@ function Snake(){
         if(!(this.velocity.x == 0 && this.velocity.y == 0)){
             this.position.add(this.velocity.setMag(this.r+this.spacing));
             
+            for(let i=0; i< this.body.length; i++){
+                if(this.position.x == this.body[i].x && this.position.y == this.body[i].y){
+                    this.die();
+                }
+            }
             //update all tail pieces with location of piece in front of them (starting from the back)
             for(var i=this.body.length-1; i>0; i--){
                 this.body[i].x = this.body[i-1].x;
@@ -35,6 +40,7 @@ function Snake(){
     
             this.body[0].x = this.position.x;
             this.body[0].y = this.position.y;
+
         }
         
 
@@ -70,7 +76,24 @@ function Snake(){
 
                 //add to the tail
                 this.body.push(new BodyPiece(lastPiece.x, lastPiece.y, this.r, color));
+
+                //move Collectible
+                _collect[i].eaten();
             }
+        }
+    }
+
+    this.die = function(){
+        this.position = createVector(width/2, height/2);
+        this.velocity = createVector(0,0);
+        this.body = [];
+        this.startCount = 5;
+
+        for (var i = 0; i < this.startCount; i++) {
+            let offsetY = i*(this.posTotal);
+            let transition = map(i, 0,this.startCount, 0,1);
+            let color = lerpColor(from, to, transition);
+            this.body.push(new BodyPiece(this.position.x, this.position.y + offsetY, this.r, color));
         }
     }
 
@@ -94,6 +117,7 @@ function BodyPiece(_x,_y,_r,_color){
     }
 
     this.display = function(){
+        noStroke();
         fill(this.color);
         rect(this.x,this.y, this.r, this.r);
     }

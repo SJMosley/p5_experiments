@@ -6,7 +6,9 @@ function Collectible(){
     this.y = floor(random(height/this.posTotal)) * this.posTotal;
 
     this.eaten = function(){
-        
+        this.x = floor(random(width/this.posTotal)) * this.posTotal;
+        this.y = floor(random(height/this.posTotal)) * this.posTotal;
+        score++;
     }
 
     this.display = function(){

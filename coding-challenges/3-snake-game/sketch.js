@@ -1,21 +1,30 @@
 var canvas;
 var snake;
 var collectibles = [];
+var score;
+var frameSlider;
 
 function setup(){
     canvas = createCanvas(500,500);
+    createP('');
+    createSpan('Snake Speed: ');
+    frameSlider = createSlider(10,60,15,1);
     background(40);
-    frameRate(30);
+    frameRate(frameSlider.value());
     snake = new Snake();
+    score = 0;
     collectibles.push(new Collectible());
 }
 function draw(){
     background(40);
-
+    frameRate(frameSlider.value());
     snake.run(collectibles);
     for (var i = 0; i < collectibles.length; i++) {
         collectibles[i].display();
     }
+
+    fill(255, 253, 84);
+    text('Score: ' + score, 20,20);
 }
 
 function keyPressed(){
