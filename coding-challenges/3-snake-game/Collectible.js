@@ -8,4 +8,9 @@ function Collectible(){
     this.eaten = function(){
         
     }
+
+    this.display = function(){
+        fill(255, 253, 84);
+        rect(this.x, this.y, this.r, this.r);
+    }
 }

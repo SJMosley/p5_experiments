@@ -1,16 +1,21 @@
 var canvas;
 var snake;
+var collectibles = [];
 
 function setup(){
     canvas = createCanvas(500,500);
     background(40);
     
     snake = new Snake();
+    collectibles.push(new Collectible());
 }
 function draw(){
     background(40);
 
-    snake.run();
+    snake.run(collectibles);
+    for (var i = 0; i < collectibles.length; i++) {
+        collectibles[i].display();
+    }
 }
 
 function keyPressed(){
