@@ -5,7 +5,7 @@ function Snake(){
     this.spacing = 2;
     this.posTotal = this.r + this.spacing;
     this.body = [];
-    this.startCount = 20;
+    this.startCount = 5;
     const from = color(224, 107, 115);
     const to = color(97, 175, 239);
 

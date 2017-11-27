@@ -5,7 +5,7 @@ var collectibles = [];
 function setup(){
     canvas = createCanvas(500,500);
     background(40);
-    
+    frameRate(30);
     snake = new Snake();
     collectibles.push(new Collectible());
 }
