@@ -5,6 +5,7 @@ function Spaceship(){
 
     this.r = 10;
     this.maxSpeed = 5;
+    this.health = 5;
     this.bullets = [];
     this.bulletMax = 25;
     this.bulletIndex = 0;
@@ -12,7 +13,8 @@ function Spaceship(){
     this.run = function(){
         this.update();
         this.borders();
-        this.checkBullets();
+        this.runBullets();
+        this.checkAsteroids();
         this.display();
     }
 
@@ -57,12 +59,21 @@ function Spaceship(){
         }
     }
 
-    this.checkBullets = function(){
+    this.runBullets = function(){
         for (var i  = 0; i  < this.bullets.length; i ++) {
             this.bullets[i].run();
             if(this.bullets[i].remove){
                 //remove bullet from the array and delete it
                 delete this.bullets.splice(i,1);
+            }
+        }
+    }
+
+    this.checkAsteroids = function(){
+        for (var i = 0; i < asteroids.length; i++) {
+            if(dist(this.position.x, this.position.y, asteroids[i].position.x, asteroids[i].position.y)<asteroids[i].r){
+                this.health--;
+                asteroids[i].destroy();
             }
         }
     }

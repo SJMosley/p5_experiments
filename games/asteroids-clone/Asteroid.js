@@ -50,6 +50,9 @@ function Asteroid(_pos, _r, _vel){
         }
     }
 
+    this.destroy = function(){
+        this.remove = true;
+    }
 
     // Wraparound
     this.borders = function() {

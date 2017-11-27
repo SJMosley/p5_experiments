@@ -1,6 +1,7 @@
 var canvas;
 var spaceship;
 var asteroids = [];
+var gameEnd = false;
 
 function setup(){
     canvas = createCanvas(500,500);
@@ -16,14 +17,31 @@ function draw(){
     background(40);
     // ellipse(mouseX,mouseY, 50,50);
 
-    spaceship.run();
+    if(!gameEnd){
+        spaceship.run();
+        
+        for (var i = 0; i < asteroids.length; i++) {
+            if(asteroids[i].remove){
+                var temp = asteroids.splice(i,1);
+                delete temp;
+            } else{
+                asteroids[i].run();
+            }
+        }
+    
+        fill(255);
+        text(("Health: " + spaceship.health), 10, 20);
 
-    for (var i = 0; i < asteroids.length; i++) {
-        if(asteroids[i].remove){
-            var temp = asteroids.splice(i,1);
-            delete temp;
-        } else{
-            asteroids[i].run();
+        if(spaceship.health === 0 || asteroids.length === 0){
+            gameEnd = true;
+        }
+    }
+    else{
+        if(spaceship.health === 0){
+            gameOver();
+        }
+        else{
+            gameWin();
         }
     }
 }
@@ -53,7 +71,6 @@ function gameOver(){
     text("YOU DIED",width/2, height/2, 364,64);
     noLoop();
     rectMode(CORNER);
-    console.log("so this happened");
 }
 function gameWin(){
     textSize(64);
