@@ -99,10 +99,15 @@ function Snake(){
 
     // Wraparound
     this.borders = function() {
-        if (this.position.x < -this.posTotal) this.position.x = width;
-        if (this.position.y < -this.posTotal) this.position.y = height;
-        if (this.position.x > width) this.position.x = -this.posTotal;
-        if (this.position.y > height) this.position.y = -this.posTotal;
+        //update snake position
+        if (this.position.x < 0) this.position.x = width-this.posTotal;
+        if (this.position.y < 0) this.position.y = height-this.posTotal;
+        if (this.position.x > width-this.posTotal) this.position.x = 0;
+        if (this.position.y > height-this.posTotal) this.position.y = 0;
+
+        //update head position
+        this.body[0].x = this.position.x;
+        this.body[0].y = this.position.y;
     }
 }
 
