@@ -1,4 +1,4 @@
-function Collectable(){
+function Collectible(){
     this.r = 8;
     this.spacing = 2;
     this.posTotal = this.r + this.spacing;
