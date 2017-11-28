@@ -84,11 +84,11 @@ function Snake(){
     }
 
     this.die = function(){
+        score = 0;
         this.position = createVector(width/2, height/2);
         this.velocity = createVector(0,0);
         this.body = [];
         this.startCount = 5;
-
         for (var i = 0; i < this.startCount; i++) {
             let offsetY = i*(this.posTotal);
             let transition = map(i, 0,this.startCount, 0,1);
