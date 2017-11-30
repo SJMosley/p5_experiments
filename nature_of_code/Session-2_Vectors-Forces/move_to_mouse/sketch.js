@@ -1,5 +1,5 @@
 var x = 0, y=0, xoff=0;
-var walker;
+var walker,billy; //lol I have no idea why I named it billy.
 var moveX = 1;
 var moveY = 1;
 

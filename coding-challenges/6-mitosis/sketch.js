@@ -10,7 +10,7 @@ function setup(){
     cells.push(new Cell(random(width), random(height), random(20,50)));
 }
 function draw(){
-    // background(40);
+    background(40);
 
     for (var i = 0; i < cells.length; i++) {
         cells[i].run();
