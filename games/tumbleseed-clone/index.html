@@ -7,6 +7,9 @@
         body {padding: 0; margin: 32;} 
         canvas {vertical-align: top;}
         a{text-decoration: none;}
+        #game{
+          width: 600px;
+        }
         .flex-container{
           display: flex;
           justify-content: space-between;
@@ -26,10 +29,13 @@
   <p><a href="../index.html"> <- Back to Games</a></p>
   <p>Based on <a href="http://www.tumbleseed.com/">TumbleSeed</a></p>
   <p>Instructions: Avoid the Holes, get to the yellow finish zone at the top</p>
-  <div id='game'></div>
-  <div class="flex-container">
-    <p>'W' and 'S' </br> move left up and down</p>
-    <p>Up and Down arrow keys</br>move right up and down</p>
+  <div id='game'>
+    <div id='gameCanvas'></div>
+    <div class="flex-container">
+      <p>'W' and 'S' </br> move left up and down</p>
+      <p>Up and Down arrow keys</br>move right up and down</p>
+    </div>
   </div>
+  
   </body>
 </html>

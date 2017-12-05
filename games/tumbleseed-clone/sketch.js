@@ -9,10 +9,11 @@ const safetyMax = 2000;
 let gameState;
 
 function setup(){
-    canvas = createCanvas(windowWidth,500);
-    canvas.parent(select('#game'));
-    createP('Max Holes to increase difficulty (Press space after changing): ');
+    canvas = createCanvas(600,600);
+    canvas.parent(select('#gameCanvas'));
+    createP('Max Holes to increase difficulty (Press space after changing): ').parent(select('#game'));
     holeSlider = createSlider(40,100, 40, 1);
+    holeSlider.parent(select('#game'));
     background(80, 158, 63);
     
     translate(0, height*3);
