@@ -4,6 +4,7 @@ function Spaceship(){
     this.velocity = createVector(0,0);
 
     this.r = 10;
+    this.rotation = 0;
     this.maxSpeed = 5;
     this.health = 5;
     this.bullets = [];
@@ -29,14 +30,19 @@ function Spaceship(){
     this.applyForce = function(force){
         this.acceleration.add(force);
     }
-
+ 
+    this.moveForward = function(){
+        let forwardForce = p5.Vector.fromAngle(radians(this.rotation));
+        forwardForce.mult(0.1);
+        this.applyForce(forwardForce);
+    }
     this.display = function(){
         fill(255);
 
         //push into new coordinate space context
         push();
         translate(this.position.x, this.position.y);
-        rotate(this.velocity.heading()+PI/2);
+        rotate(radians(this.rotation) + PI/2);
         beginShape();
         vertex(0, -this.r*2);
         vertex(-this.r, this.r*2);
@@ -52,11 +58,8 @@ function Spaceship(){
     }
 
     this.shoot = function(){
-        if(this.velocity.x != 0 || this.velocity.y != 0){
-            this.bullets.push(new Bullet(this.position, this.velocity));
-        } else{
-            this.bullets.push(new Bullet(this.position, p5.Vector.fromAngle(0).normalize()));
-        }
+        let bulletVec = p5.Vector.fromAngle(radians(this.rotation)).setMag(4);
+        this.bullets.push(new Bullet(this.position, bulletVec));
     }
 
     this.runBullets = function(){

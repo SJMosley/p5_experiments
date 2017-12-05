@@ -17,6 +17,8 @@ function draw(){
     background(40);
     // ellipse(mouseX,mouseY, 50,50);
 
+    checkKeys();
+    
     if(!gameEnd){
         spaceship.run();
         
@@ -45,21 +47,24 @@ function draw(){
         }
     }
 }
-
+function checkKeys(){
+    //W
+    if(keyIsDown(87) || keyIsDown(UP_ARROW)){
+        spaceship.moveForward();
+    }
+    //A
+    if(keyIsDown(65) || keyIsDown(LEFT_ARROW)){
+        spaceship.rotation = spaceship.rotation - 2;
+    }
+    //S
+    if(keyIsDown(83) || keyIsDown(DOWN_ARROW)){}
+    //D
+    if(keyIsDown(68) || keyIsDown(RIGHT_ARROW)){
+        spaceship.rotation = spaceship.rotation + 2;
+    }
+}
 function keyPressed(){
-    if(keyCode === UP_ARROW || key === 'W'){
-        spaceship.applyForce(createVector(0,-1));
-    }
-    if(keyCode === RIGHT_ARROW || key === 'D'){
-        spaceship.applyForce(createVector(1,0));
-    }
-    if(keyCode === DOWN_ARROW || key === 'S'){
-        spaceship.applyForce(createVector(0,1));
-    }
-    if(keyCode === LEFT_ARROW || key === 'A'){
-        spaceship.applyForce(createVector(-1,0));
-    }
-    if(keyCode === 32 || key === ' '){
+    if(keyCode === 32 || key === ' ' || key === 'X'){
         spaceship.shoot();
     }
 }
