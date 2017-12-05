@@ -1,8 +1,9 @@
 function Seed(){
-    this.position = createVector(width/2, height/2);
+    this.position = createVector(width/2, (height*2)+height/2);
     this.acceleration = createVector(0,0);
     this.velocity = createVector(0,0);
     this.r = 12;
+    this.angle = 0;
     this.maxSpeed = 3;
     this.opacity = 255;
     this.falling = false;
@@ -27,7 +28,6 @@ function Seed(){
         if(!this.inAir){
             for (var i = 0; i < holes.length; i++) {
                 if(dist(this.position.x, this.position.y, holes[i].x, holes[i].y) < holes[i].r){
-                    console.log('checkHoles');
                     this.fallPosition = this.position;
                     this.fallenHole = holes[i];
                     this.falling = true;
@@ -68,10 +68,29 @@ function Seed(){
         } 
     }
     this.display = function(){
-        fill(223, 120, 115, this.opacity);
+        fill(224, 107, 115, this.opacity);
         noStroke();
+        push();
+        translate(this.position.x, this.position.y);
+
+        if(!this.inAir){
+            angleMode(DEGREES);
+            let rotationSpeed = map(this.velocity.x, -3, 3, -4, 4);
+            if(this.velocity.x < 0){ //moving left
+                this.angle = this.angle + rotationSpeed;
+            } else if(this.velocity.x > 0){ //moving right
+                this.angle = this.angle + rotationSpeed;
+            }
+            rotate(this.angle);
+            angleMode(RADIANS);
+        }
+
         ellipseMode(RADIUS);
-        ellipse(this.position.x, this.position.y, this.r, this.r);
+        ellipse(0,0, this.r, this.r);
+        fill(0);
+        rectMode(CENTER);
+        rect(0,0,4,20);
+        pop();
     }
     this.reset = function(){
 
