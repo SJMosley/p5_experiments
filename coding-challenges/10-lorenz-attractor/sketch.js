@@ -18,7 +18,7 @@ function setup(){
 }
 
 function draw(){
-    background(40);
+    background(255);
     var dx = (a * (y - x)) * dt;
     var dy = (x * (b - z) - y) * dt;
     var dz = (x * y - c * z) * dt;
@@ -35,14 +35,17 @@ function draw(){
     scale(4);
     rotateX(frameCount * 0.01);
     rotateY(frameCount * 0.01);
-    ambientLight(255, 0,0);
+    var dirY = (mouseY / height - 0.5) *2;
+    var dirX = (mouseX / width - 0.5) *2;
+    directionalLight(250, 250, 250, dirX, -dirY, 0.25);
+
+    normalMaterial(50,100,235);
     points.forEach(function(p){
         push();
         translate(p.x, p.y, p.z);
-        ambientMaterial(255);
-        sphere(0.3);
+        sphere(0.5);
         pop();
-    })
+    })   
 }
 
 function mousePressed(){
