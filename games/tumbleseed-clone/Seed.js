@@ -42,7 +42,7 @@ function Seed(){
 
         this.fallPosition.add(fallVector);
         this.position = this.fallPosition;
-        this.opacity = this.opacity - 1;
+        this.opacity = this.opacity - 3;
         if(this.opacity < 0){
             this.reset();
         }

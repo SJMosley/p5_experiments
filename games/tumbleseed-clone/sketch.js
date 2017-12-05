@@ -9,9 +9,9 @@ const safetyMax = 2000;
 let gameState;
 
 function setup(){
-    canvas = createCanvas(600,600);
+    canvas = createCanvas(windowWidth - 32,windowHeight*2/3);
     canvas.parent(select('#gameCanvas'));
-    createP('Max Holes to increase difficulty (Press space after changing): ').parent(select('#game'));
+    createSpan('Max Holes to increase difficulty (Press space after changing): ').parent(select('#game'));
     holeSlider = createSlider(40,100, 40, 1);
     holeSlider.parent(select('#game'));
     background(80, 158, 63);
@@ -159,6 +159,10 @@ function gameWon(){
         background(0);
         resetMatrix();
 
+        textSize(100);
+        textAlign(CENTER);
+        text("You Win!", width/2, height/2);
+
     };
 }
 
@@ -170,12 +174,17 @@ function gameLost(){
     this.display = function(){
         background(0);
         resetMatrix();
+
+        textSize(100);
+        textAlign(CENTER);
+        text("You Lose :(", width/2, height/2);
     };
 }
 
 function resetGame(){
     translate(0, height*3);
-    
+    canvas = createCanvas(windowWidth,windowHeight*2/3);
+    canvas.parent(select('#gameCanvas'));
     seed = new Seed();
     tumble = new Tumble();
     finishZone = new FinishZone();
