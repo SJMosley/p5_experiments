@@ -9,7 +9,11 @@ const safetyMax = 2000;
 let gameState;
 
 function setup(){
-    canvas = createCanvas(windowWidth - 32,windowHeight*2/3);
+    if(windowWidth > 600){
+        canvas = createCanvas(600,windowHeight*2/3);
+    } else{
+        canvas = createCanvas(windowWidth - 32,windowHeight*2/3);
+    }
     canvas.parent(select('#gameCanvas'));
     createSpan('Max Holes to increase difficulty (Press space after changing): ').parent(select('#game'));
     holeSlider = createSlider(40,100, 40, 1);
@@ -183,7 +187,11 @@ function gameLost(){
 
 function resetGame(){
     translate(0, height*3);
-    canvas = createCanvas(windowWidth,windowHeight*2/3);
+    if(windowWidth > 600){
+        canvas = createCanvas(600,windowHeight*2/3);
+    } else{
+        canvas = createCanvas(windowWidth - 32,windowHeight*2/3);
+    }
     canvas.parent(select('#gameCanvas'));
     seed = new Seed();
     tumble = new Tumble();
