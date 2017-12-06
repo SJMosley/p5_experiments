@@ -3,10 +3,14 @@ let seed;
 let tumble;
 let finishZone;
 let holes = [];
+let itemSquares = [];
+let objects = [];
+let itemMax = 12;
 let holeSlider;
 let safety = 0;
 const safetyMax = 2000;
 let gameState;
+let gameHeight;
 
 function setup(){
     if(windowWidth > 600){
@@ -21,13 +25,14 @@ function setup(){
     background(80, 158, 63);
     
     translate(0, height*3);
-
+    
     gameState = new gameActive();
     seed = new Seed();
     tumble = new Tumble();
     finishZone = new FinishZone();
     
     generateHoles();
+    generateItemSquares();
 }
 
 function draw(){
@@ -44,10 +49,16 @@ function draw(){
 
 
         //move the display area up and down with the tumble control
-        translate(0, -tumble.tumblePointUnderSeed.y + (height * 0.6));
+        //if you aren't at top.
+        if(tumble.tumblePointUnderSeed.y > (height * 0.6)){
+            translate(0, -tumble.tumblePointUnderSeed.y + (height * 0.6));
+        }
     
         for (let i = 0; i < holes.length; i++) {
             holes[i].display();
+        }
+        for (var j = 0; j < itemSquares.length; j++) {
+            itemSquares[j].display();
         }
         //Render last so they draw over everything
         tumble.run();
@@ -87,6 +98,7 @@ function generateHoles(){
 
     holes.push(new Hole(newX, newY, newR));
 
+    safety = 0;
     //we are going to loop through and check that holes aren't overlapping
     while(safety < safetyMax && holes.length < holeSlider.value()){
         holeSpacing = random(4, 24);
@@ -111,15 +123,63 @@ function generateHoles(){
     }
 }
 
+function generateItemSquares(){
+    let holeSpacing = 8;
+    let newX = random(20,width-20);
+    let newY = random(150,(height*3)-(height/3));
+    let newR = 20;
+    let itemSquareSpacing = 100;
+
+    itemSquares.push(new ItemSquare(newX, newY));
+
+    safety = 0;
+    while(safety < safetyMax && itemSquares.length < itemMax){
+        holeSpacing = random(4, 24);
+        newX = random(width);
+        newY = random(50,(height*3)-(height/3));
+        
+        let overlap = false;//assume it doesn't overlap
+        for (var i = 0; i < holes.length; i++) {
+            let tempDist = dist(holes[i].x, holes[i].y, newX, newY);
+            let radiiWithSpacing = holes[i].r + newR + holeSpacing;
+            if(tempDist < radiiWithSpacing){
+                overlap = true;
+            }
+        }
+        for (var i = 0; i < itemSquares.length; i++) {
+            let tempDist = dist(itemSquares[i].x, itemSquares[i].y, newX, newY);
+            let radiiWithSpacing = itemSquares[i].r + newR + itemSquareSpacing;
+            if(tempDist < radiiWithSpacing){
+                overlap = true;
+            }
+        }
+        
+        if(!overlap){
+            //generate hole
+            itemSquares.push(new ItemSquare(newX, newY));
+        }
+        safety++;
+    }
+}
+
 function keyPressed(){
-    if(key === ' '){
+    if(key === 'R'){
         resetGame();
+    }
+    if(key === ' '){
+        seed.changeSeedType();
     }
 }
 function mousePressed(){
     // seed.velocity = createVector(0,0);
     // tumble.leftPos.y = mouseY;
     // tumble.rightPos.y = mouseY;
+
+    for (var i = 0; i < holes.length; i++) {    
+        if(dist(holes[i].x, holes[i].y, mouseX, mouseY) < holes[i].r){
+            console.log('holes: ' + i);
+        }
+    }
 }
 
 function gameActive(){
@@ -198,6 +258,8 @@ function resetGame(){
     finishZone = new FinishZone();
     gameState = new gameActive();
     holes = [];//reset holes
+    itemSquares = [];
 
     generateHoles();
+    generateItemSquares();
 }
