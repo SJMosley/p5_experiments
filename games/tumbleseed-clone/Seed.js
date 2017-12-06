@@ -4,6 +4,12 @@ const seedTypes = [
     'crystal', //2
     'heart' //3
 ];
+const neededCrystals = [
+    1,
+    1,
+    0,
+    1
+]
 function Seed(){
     this.position = createVector(width/2, (height*2)+height/2);
     this.acceleration = createVector(0,0);
@@ -61,7 +67,7 @@ function Seed(){
         if(!this.inAir){
             for (var i = 0; i < itemSquares.length; i++) {
                 if(dist(this.position.x, this.position.y, itemSquares[i].x, itemSquares[i].y) < itemSquares[i].r){
-                    if(!itemSquares[i].isCollected() && this.crystals >= 1){ //if not collected then give bonus
+                    if(!itemSquares[i].isCollected() && this.crystals >= neededCrystals[this.seedType]){ //if not collected then give bonus
                         switch(this.seedType){
                             //flag
                             case 0:
@@ -84,7 +90,7 @@ function Seed(){
                             break;
                         }
                         itemSquares[i].setCollected();
-                        this.crystals--; //subtract future crystal requirement
+                        this.crystals = this.crystals - neededCrystals[this.seedType]; //subtract future crystal requirement
                     }
 
 
@@ -206,8 +212,9 @@ function Seed(){
         fill(179, 112, 218);
         rectMode(CORNER);
         rect(10,height-40, 100, 30);
+        textAlign(CENTER,CENTER);
         fill(0);
-        text('Crystals: ' + this.crystals, 20, height-20);
+        text('Crystals: ' + this.crystals, 10,height-40, 100, 30);
         pop();
     }
 

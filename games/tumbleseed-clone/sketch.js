@@ -57,8 +57,11 @@ function draw(){
         for (let i = 0; i < holes.length; i++) {
             holes[i].display();
         }
-        for (var j = 0; j < itemSquares.length; j++) {
-            itemSquares[j].display();
+        for (let i = 0; i < itemSquares.length; i++) {
+            itemSquares[i].display();
+        }
+        for (let i = 0; i < objects.length; i++) {
+            objects[i].run();
         }
         //Render last so they draw over everything
         tumble.run();
