@@ -1,11 +1,14 @@
-function Crystal(_x, _y, _r){
+function Crystal(_x, _y, _r, _val){
     this.desiredX = _x + random(-_r*1.25, _r*1.25);
     this.desiredY = _y + random(-_r*1.25, _r*1.25);
     this.x = _x;
     this.y = _y;
+    this.r = 4;
+    this.value = _val || 1;
     this.acc = createVector(0,0);
     this.vel = createVector(0,0);
     this.maxSpeed = 0.5;
+    this.collectible = false;
     this.remove = false;
 
     this.run = function(){
@@ -35,6 +38,7 @@ function Crystal(_x, _y, _r){
         } else{
             this.acc = createVector(0,0);
             this.vel = createVector(0,0);
+            this.collectible = true;
             return createVector(0,0);
         }
 
@@ -44,17 +48,27 @@ function Crystal(_x, _y, _r){
         this.acc.add(force);
     }
 
+    this.getValue = function(){
+        return this.value;
+    }
+
+    this.getObjName = function(){
+        return 'crystal';
+    }
+    this.canCollect = function(){
+        return this.collectible;
+    }
     this.display = function(){
         push();
         translate(this.x, this.y);
         fill(207, 255, 255);
         beginShape();
-        vertex(0,-6);
-        vertex(6,-4);
-        vertex(6,4);
-        vertex(0,6);
-        vertex(-6,4);
-        vertex(-6,-4);
+        vertex(0,-this.r*2);
+        vertex(this.r*1.5,-this.r);
+        vertex(this.r*1.5,this.r);
+        vertex(0,this.r*2);
+        vertex(-this.r*1.5,this.r);
+        vertex(-this.r*1.5,-this.r);
         endShape(CLOSE);
         pop();
     }

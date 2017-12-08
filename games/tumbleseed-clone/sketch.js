@@ -10,8 +10,10 @@ let holeSlider;
 let safety = 0;
 const safetyMax = 2000;
 let gameState;
-let gameHeight;
-
+let levelHeight;
+let accX;
+let accY;
+let accZ;
 function setup(){
     if(windowWidth > 600){
         canvas = createCanvas(600,windowHeight*2/3);
@@ -22,6 +24,7 @@ function setup(){
     createSpan('Max Holes to increase difficulty (Press space after changing): ').parent(select('#game'));
     holeSlider = createSlider(40,100, 40, 1);
     holeSlider.parent(select('#game'));
+
     background(80, 158, 63);
     
     translate(0, height*3);
@@ -45,7 +48,7 @@ function draw(){
 
         //check game keys
         checkHeldKeys();
-    
+        checkMobileAcceleration();
 
 
         //move the display area up and down with the tumble control
@@ -92,7 +95,30 @@ function checkHeldKeys(){
         // tumble.rightPos.y = constrain(tumble.rightPos.y++,0,height);
     }
 }
+function checkMobileAcceleration(){
+    // accX.html(accelerationX);
+    // accY.html(accelerationY);
+    // accZ.html(accelerationZ);
+    // let threshold = 0.4;
+    // let movementSpeed = 1;
+    // //+,-
+    // if(accelerationX > threshold && accelerationY < -threshold){
+    //     tumble.leftPos.y += movementSpeed;
+    // }
+    // //-,-
+    // if(accelerationX < -threshold && accelerationY < -threshold){
+    //     tumble.rightPos.y += movementSpeed;
+    // }
+    // //-,+
+    // if(accelerationX < -threshold && accelerationY > threshold){
+    //     tumble.rightPos.y += -movementSpeed;
+    // }
+    // //+,+
+    // if(accelerationX > threshold && accelerationY > threshold){
+    //     tumble.leftPos.y += -movementSpeed;
+    // }
 
+}
 function generateHoles(){
     let holeSpacing = 8;
     let newX = random(width);
