@@ -14,7 +14,7 @@ function Seed(){
     this.position = createVector(width/2, (height*2)+height/2);
     this.acceleration = createVector(0,0);
     this.velocity = createVector(0,0);
-    this.r = 12;
+    this.r = 14;
     this.angle = 0;
     this.maxSpeed = 3;
     this.opacity = 255;
@@ -75,7 +75,7 @@ function Seed(){
                         break;
                         //thorn
                         case 1: 
-                        this.thorns.push(new Thorn());
+                        this.thorns.push(new Thorn(this.r+10));
                         itemSquares[i].setCollected();
                         break;
                         //crystal
@@ -157,9 +157,12 @@ function Seed(){
             this.position.x = width - this.r;
             this.velocity = createVector(0,0);
         } 
+
+        for (var i = 0; i < this.thorns.length; i++) {
+            this.thorns[i].update();
+        }
     }
     this.display = function(){
-        
         noStroke();
         push();
         translate(this.position.x, this.position.y);
@@ -214,13 +217,13 @@ function Seed(){
         ellipseMode(RADIUS);
         ellipse(0,0, this.r, this.r);
         fill(0);
-        rectMode(CENTER);
-        rect(0,0,4,20);
+
+        this.displayEye();
         
     }
     this.displayCrystalSeed = function(){
         this.calculateRotation();
-
+        
         stroke(226, 230, 233, this.opacity);
         strokeWeight(3);
         noFill();
@@ -232,16 +235,22 @@ function Seed(){
         }
         endShape(CLOSE);
         // ellipseMode(RADIUS);
-        fill(226, 230, 233, this.opacity);
+        fill(216, 255, 255, this.opacity);
         noStroke();
         if(this.crystalPieces != 0){
             arc(0,0, this.r, this.r, 0, TWO_PI*(this.crystalPieces/this.piecesToEarnCrystal));
         }
         fill(0);
         
-        rectMode(CENTER);
-        rect(0,0,4,20);
+
+        this.displayEye();
         
+    }
+    this.displayEye = function(){
+        fill(255, 255, 255,this.opacity);
+        ellipse(0,0,9,6);
+        fill(94, 42, 85,this.opacity);
+        ellipse(0,0,4,4);
     }
 
     this.calculateRotation = function(){
@@ -257,12 +266,13 @@ function Seed(){
             angleMode(RADIANS);
         }
     }
-
+    
     this.displayThorns = function(){
         //Change angle so that it updates based on the number of thorns.
         //this needs to be changed so that each thron save it's own angle, that way
         //if I lose one the others will stay in place until I gain another. like the real game
         for (var i = 0; i < this.thorns.length; i++) {
+            //this.thorns[i].display();
             rotate(2 * PI/this.thorns.length);
             fill(102, 61, 36);
             rect(22, 0, 12, 4);

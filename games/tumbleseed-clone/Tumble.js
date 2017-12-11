@@ -72,11 +72,11 @@ function Tumble(){
             // console.log('movement Vector after multiple: '+ movementVector);
             if(seed.position.y + seed.r +  (this.height/2) +  2 > this.tumblePointUnderSeed.y){
                 seed.inAir = false;
-                seed.applyForce(this.movementVector.setMag(0.01));
+                seed.applyForce(this.movementVector.setMag(0.006));
                 seed.position.y = this.tumblePointUnderSeed.y - seed.r - (this.height/2);
             } else{
                 seed.inAir = true;
-                seed.applyForce(this.movementVector.setMag(0.01));
+                seed.applyForce(this.movementVector.setMag(0.006));
                 seed.velocity = (createVector(0,1).setMag(0.1));
             }
         } else if(target === 'right'){
@@ -90,11 +90,11 @@ function Tumble(){
             //if the point is right under the seed move the seed up.
             if(seed.position.y + seed.r +  (this.height/2) + 2> this.tumblePointUnderSeed.y){
                 seed.inAir = false;
-                seed.applyForce(this.movementVector.setMag(0.01));
+                seed.applyForce(this.movementVector.setMag(0.006));
                 seed.position.y = this.tumblePointUnderSeed.y - seed.r - (this.height/2);
             } else{
                 seed.inAir = true;
-                seed.applyForce(this.movementVector.setMag(0.01));
+                seed.applyForce(this.movementVector.setMag(0.006));
                 seed.velocity = (createVector(0,1).setMag(0.1));
             }
         }

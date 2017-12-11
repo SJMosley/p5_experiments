@@ -5,6 +5,7 @@ let finishZone;
 let holes = [];
 let itemSquares = [];
 let objects = [];
+let enemies = [];
 let itemMax = 12;
 let holeSlider;
 let safety = 0;
@@ -34,8 +35,8 @@ function setup(){
     tumble = new Tumble();
     finishZone = new FinishZone();
     
-    generateHoles();
-    generateItemSquares();
+    generateGameObjects();
+    
 }
 
 function draw(){
@@ -65,6 +66,9 @@ function draw(){
         }
         for (let i = 0; i < objects.length; i++) {
             objects[i].run();
+        }
+        for (let i = 0; i < enemies.length; i++) {
+            enemies[i].run();
         }
         //Render last so they draw over everything
         tumble.run();
@@ -119,6 +123,12 @@ function checkMobileAcceleration(){
     // }
 
 }
+function generateGameObjects(){
+    generateHoles();
+    generateItemSquares();
+    generateEnemies();
+}
+
 function generateHoles(){
     let holeSpacing = 8;
     let newX = random(width);
@@ -159,8 +169,6 @@ function generateItemSquares(){
     let newR = 20;
     let itemSquareSpacing = 100;
 
-    itemSquares.push(new ItemSquare(newX, newY));
-
     safety = 0;
     while(safety < safetyMax && itemSquares.length < itemMax){
         holeSpacing = random(4, 24);
@@ -190,7 +198,35 @@ function generateItemSquares(){
         safety++;
     }
 }
+function generateEnemies(){
+    let holeSpacing = 8;
+    let newX = random(20,width-20);
+    let newY = random(50,(height*3)-(height/2));
+    let newR = 20;
+    let enemySpacing = 300;
 
+    safety = 0;
+    while(safety < safetyMax && enemies.length < 5){
+        holeSpacing = random(4, 24);
+        newX = random(width);
+        newY = random(50,(height*3)-(height/3));
+        
+        let overlap = false;//assume it doesn't overlap
+        for (var i = 0; i < enemies.length; i++) {
+            let tempDist = dist(enemies[i].x, enemies[i].y, newX, newY);
+            let radiiWithSpacing = enemies[i].r + newR + enemySpacing;
+            if(tempDist < radiiWithSpacing){
+                overlap = true;
+            }
+        }
+        
+        if(!overlap){
+            //generate enemy
+            enemies.push(new Slug(newX, newY));
+        }
+        safety++;
+    }
+}
 function keyPressed(){
     if(key === 'R'){
         resetGame();
@@ -204,11 +240,7 @@ function mousePressed(){
     // tumble.leftPos.y = mouseY;
     // tumble.rightPos.y = mouseY;
 
-    for (var i = 0; i < holes.length; i++) {    
-        if(dist(holes[i].x, holes[i].y, mouseX, mouseY) < holes[i].r){
-            console.log('holes: ' + i);
-        }
-    }
+    //enemies.push(new Slug(seed.position.x + 100, seed.position.y + 100));
 }
 
 function gameActive(){

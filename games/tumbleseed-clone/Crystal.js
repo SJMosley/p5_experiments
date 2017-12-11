@@ -61,7 +61,14 @@ function Crystal(_x, _y, _r, _val){
     this.display = function(){
         push();
         translate(this.x, this.y);
-        fill(207, 255, 255);
+
+        if(this.value = 1){
+            fill(207, 255, 255);
+        } else if(this.value = 3){
+            fill(255, 165, 26);
+        } else if(this.value = 5){
+            fill(106, 235, 24);
+        }
         beginShape();
         vertex(0,-this.r*2);
         vertex(this.r*1.5,-this.r);

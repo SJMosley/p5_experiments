@@ -23,7 +23,7 @@ function ItemSquare(_x, _y, _r){
     }
 
     this.createCrystals = function(){
-        objects.push(new Crystal(this.x, this.y, this.r));
-        objects.push(new Crystal(this.x, this.y, this.r));
+        objects.push(new Crystal(this.x, this.y, this.r, 1));
+        objects.push(new Crystal(this.x, this.y, this.r, 1));
     }
 }
