@@ -75,7 +75,7 @@ function Seed(){
                         break;
                         //thorn
                         case 1: 
-                        this.thorns.push(new Thorn(this.r+10));
+                        this.thorns.push(new Thorn(this.thorns.length));
                         itemSquares[i].setCollected();
                         break;
                         //crystal
