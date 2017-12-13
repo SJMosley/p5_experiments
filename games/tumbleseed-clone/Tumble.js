@@ -1,20 +1,22 @@
 //The bar that moves the sides
-function Tumble(){
-    this.leftPos = createVector(0,(height*2)+height*3/4);
-    this.rightPos = createVector(width, (height*2)+height*3/4);
-    this.length = width - 20;
-    this.height = 10;
-    this.movementVector = createVector(0,0);;
-    this.tumblePointUnderSeed = createVector(seed.position.x, this.leftPos.y);;
+class Tumble{
+    constructor(){
+        this.leftPos = createVector(0,(height*2)+height*3/4);
+        this.rightPos = createVector(width, (height*2)+height*3/4);
+        this.length = width - 20;
+        this.height = 10;
+        this.movementVector = createVector(0,0);
+        this.tumblePointUnderSeed = createVector(seed.position.x, this.leftPos.y);
+    }
 
-    this.run = function(){
+    run(){
         this.update();
         this.display();
     }
-    this.update = function(){
+    update(){
         this.touchingSeed();
     }
-    this.display = function(){
+    display(){
         //Should probably switch this to a rect. but then I have to deal with rotation so I will skip it for now.
         stroke(0);
         strokeWeight(8);
@@ -34,7 +36,7 @@ function Tumble(){
             pop();
         }
     }
-    this.touchingSeed = function(){
+    touchingSeed(){
         if(seed.falling){
             return false;
         }

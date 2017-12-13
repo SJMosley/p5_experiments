@@ -1,33 +1,36 @@
-function Slug(_x,_y){
-    this.ogPos = createVector(_x, _y);
-    this.pos = createVector(_x, _y);
-    this.r = 12;
-    this.r2 = this.r - 3;
-    this.r3 = this.r - 5;
-    this.travelDistance = 4;
-    this.speed = 0.4;
-    this.crystalsDropped = 1;
-    this.health = 1;
-    this.remove = false;
+class Slug{
+    constructor(_x,_y){
+        this.ogPos = createVector(_x, _y);
+        this.pos = createVector(_x, _y);
+        this.r = 12;
+        this.r2 = this.r - 3;
+        this.r3 = this.r - 5;
+        this.travelDistance = 4;
+        this.speed = 0.4;
+        this.crystalsDropped = 1;
+        this.health = 1;
+        this.remove = false;
 
-
-    if(floor(random(2))){
-        //if it is 1 go horizontal
-        this.dir = createVector(1,0);
-        
-    }else{
-        //if it is 0 go vertical
-        this.dir = createVector(0,1);
+        if(floor(random(2))){
+            //if it is 1 go horizontal
+            this.dir = createVector(1,0);
+            
+        }else{
+            //if it is 0 go vertical
+            this.dir = createVector(0,1);
+        }
     }
+
+
     
-    this.run = function(){
+    run(){
         this.update();
         this.display();
     }
-    this.turn = function(){
+    turn(){
         this.dir.mult(-1);
     }
-    this.update = function(){
+    update(){
         //ensure offset
         if(dist(this.ogPos.x, this.ogPos.y, this.pos.x, this.pos.y) > (this.r*2)*this.travelDistance){
             this.turn();
@@ -38,7 +41,7 @@ function Slug(_x,_y){
             this.turn();
         }
     }
-    this.display = function(){
+    display(){
         push();
         translate(this.pos.x, this.pos.y);
         rotate(this.dir.heading() + PI/2);
@@ -62,7 +65,7 @@ function Slug(_x,_y){
         pop();
     }
 
-    this.hit = function(damage){
+    hit(damage){
         this.health = this.health - damage;
 
         //kill creature if health is less than zero
@@ -71,12 +74,12 @@ function Slug(_x,_y){
         }
     }
 
-    function kill(){
+    kill(){
         this.remove = true;
         this.createCrystals(this.crystalsDropped);
     }
 
-    this.createCrystals = function(_num){
+    createCrystals(_num){
         let crystals = _num;
         for (var i = crystals; i > 0; i--) {
             if(crystals > 5){
