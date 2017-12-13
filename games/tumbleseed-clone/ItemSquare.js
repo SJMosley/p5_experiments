@@ -1,10 +1,12 @@
-function ItemSquare(_x, _y, _r){
-    this.x = _x;
-    this.y = _y;
-    this.r = 20;
-    let isCollected = false;
+class ItemSquare{
+    constructor(_x, _y, _r){
+        this.x = _x;
+        this.y = _y;
+        this.r = 20;
+        let isCollected = false;
+    }
 
-    this.display = function(){
+    display(){
         if(isCollected){
             fill(102, 161, 77);
         } else{
@@ -19,14 +21,14 @@ function ItemSquare(_x, _y, _r){
         pop();
     }
 
-    this.setCollected = function(){
+    setCollected(){
         isCollected = true;
     }
-    this.isCollected = function(){
+    isCollected(){
         return isCollected;
     }
 
-    this.createCrystals = function(){
+    createCrystals(){
         objects.push(new Crystal(this.x, this.y, this.r, 1));
         objects.push(new Crystal(this.x, this.y, this.r, 1));
     }
