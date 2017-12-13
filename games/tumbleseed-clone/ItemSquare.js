@@ -5,7 +5,11 @@ function ItemSquare(_x, _y, _r){
     let isCollected = false;
 
     this.display = function(){
-        fill(65, 72, 97);
+        if(isCollected){
+            fill(102, 161, 77);
+        } else{
+            fill(65, 72, 97);
+        }
         
         push();
         translate(this.x, this.y);

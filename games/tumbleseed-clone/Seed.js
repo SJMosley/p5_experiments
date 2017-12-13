@@ -10,65 +10,74 @@ const neededCrystals = [
     0,
     1
 ]
-function Seed(){
-    this.position = createVector(width/2, (height*2)+height/2);
-    this.acceleration = createVector(0,0);
-    this.velocity = createVector(0,0);
-    this.r = 14;
-    this.angle = 0;
-    this.maxSpeed = 3;
-    this.opacity = 255;
-    this.falling = false;
-    this.fallPosition = createVector(0,0);
-    this.fallenHole;
-    this.inAir = true;
-    this.seedType = 1;
+class Seed{
+    constructor(){
+        this.seedType = 1;
+        //position related variables
+        this.position = createVector(width/2, (height*2)+height/2);
+        this.acceleration = createVector(0,0);
+        this.velocity = createVector(0,0);
+        this.r = 14;
 
-    //Thorn Type Stats
-    this.thorns = [];
+        //rotation related variables
+        this.angle = 0;
+        this.maxSpeed = 3;
+        
+        //falling related
+        this.falling = false;
+        this.fallenHole;
+        this.fallPosition = createVector(0,0);
+        this.opacity = 255;
+        this.inAir = true;
 
-    //Crystal Type Stats
-    this.crystals = 2;
-    this.crystalPieces = 2; //debug value is 2
-    this.piecesToEarnCrystal = 3;
+        //Thorn Type variables
+        this.thorns = [];
+        //Crystal Type variables
+        this.crystals = 2;
+        this.crystalPieces = 2; //debug value is 2
+        this.piecesToEarnCrystal = 3;
 
-    //Heart Type Stats
-    this.hearts = 3;
-    this.heartPieces = 3; //debug value is 3
-    this.piecesToEarnHeart = 4;
+        //Heart Type variables
+        this.hearts = 3;
+        this.heartPieces = 3; //debug value is 3
+        this.piecesToEarnHeart = 4;
+    }
 
-
-    this.run = function(){
+    run(holeArr,isArr,objArr){
         if(this.falling){
             this.fall();
         }else{
             this.update();
             if(!this.inAir){
-                this.checkHoles();
-                this.checkItemSquares();
-                this.checkObjects();
+                this.checkHoles(holeArr);
+                this.checkItemSquares(isArr);
+                this.checkObjects(objArr);
             }
         }
         this.display();
     }
-    this.applyForce = function(f){
+    
+    applyForce(f){
         this.acceleration.add(f);
     }
 
-    this.checkHoles = function(){
-        for (var i = 0; i < holes.length; i++) {
-            if(dist(this.position.x, this.position.y, holes[i].x, holes[i].y) < holes[i].r){
+    checkHoles(holeArr){
+        for (var i = 0; i < holeArr.length; i++) {
+            if(dist(this.position.x, this.position.y, holeArr[i].x, holeArr[i].y) < holeArr[i].r){
                 this.fallPosition = this.position;
-                this.fallenHole = holes[i];
+                this.fallenHole = holeArr[i];
                 this.falling = true;
                 this.thorns = [];
             }
         }
     }
-    this.checkItemSquares = function(){
+
+    checkItemSquares(isArr){
         for (var i = 0; i < itemSquares.length; i++) {
-            if(dist(this.position.x, this.position.y, itemSquares[i].x, itemSquares[i].y) < itemSquares[i].r){
-                if(!itemSquares[i].isCollected() && this.crystals >= neededCrystals[this.seedType]){ //if not collected then give bonus
+            //check distance from item square
+            if(dist(this.position.x, this.position.y, isArr[i].x, isArr[i].y) < isArr[i].r){
+                //if itemsquare hasn't been used and 
+                if(!isArr[i].isCollected() && this.crystals >= neededCrystals[this.seedType]){ //if not collected then give bonus
                     switch(this.seedType){
                         //flag
                         case 0:
@@ -79,16 +88,16 @@ function Seed(){
                         for (let i = 0; i < this.thorns.length; i++) {
                             this.thorns[i].updateAngle(i, this.thorns.length);
                         }
-                        itemSquares[i].setCollected();
+                        isArr[i].setCollected();
                         break;
                         //crystal
                         case 2:
                         this.crystalPieces++;
                         if(this.crystalPieces == this.piecesToEarnCrystal){
-                            itemSquares[i].createCrystals();
+                            isArr[i].createCrystals();
                             this.crystalPieces = 0;
                         }
-                        itemSquares[i].setCollected();
+                        isArr[i].setCollected();
                         break;
                         //heart
                         case 3:
@@ -98,29 +107,26 @@ function Seed(){
                     }
                     this.crystals = this.crystals - neededCrystals[this.seedType]; //subtract future crystal requirement
                 }
-
-
             }
         }
     }
 
-    this.checkObjects = function(){
-        for (let i = 0; i < objects.length; i++) {
-            if(dist(this.position.x, this.position.y, objects[i].x, objects[i].y) < (this.r+objects[i].r/2)){
-                if(objects[i].canCollect()){
-                    seed.collectObject(objects[i]);
+    checkObjects(objArr){
+        for (let i = 0; i < objArr.length; i++) {
+            if(dist(this.position.x, this.position.y, objArr[i].x, objArr[i].y) < (this.r+objArr[i].r/2)){
+                if(objArr[i].canCollect()){
+                    seed.collectObject(objArr[i]);
                 }
             }
         }
-        for (let i=objects.length-1; i>=0; i--){
-            if(objects[i].remove){
-                objects.splice(i,1);
+        for (let i=objArr.length-1; i>=0; i--){
+            if(objArr[i].remove){
+                objArr.splice(i,1);
             }
         }
     }
 
-    this.collectObject = function(obj){
-        
+    collectObject(obj){
         switch(obj.getObjName()){
             case 'crystal':
             this.crystals = this.crystals + obj.getValue();
@@ -132,7 +138,7 @@ function Seed(){
         obj.remove = true;
     }
 
-    this.fall = function(){
+    fall(){
         //move Seed closer to the hole center after it hits the fall position.
         let fallVector = p5.Vector.sub(createVector(this.fallenHole.x, this.fallenHole.y), this.fallPosition);
         fallVector.mult(0.1);
@@ -140,9 +146,22 @@ function Seed(){
         this.fallPosition.add(fallVector);
         this.position = this.fallPosition;
         this.opacity = this.opacity - 3;
-
     }
-    this.update = function(){
+
+    changeSeedType(_st){
+        console.log(!_st);
+        if(!_st){
+            this.seedType++;
+            if(this.seedType > 3){
+                this.seedType = 0;
+            }
+        }else{
+            this.seedType = _st;
+            
+        }
+    }
+
+    update(){
         if(this.inAir){
             this.velocity.setMag(0.3);
         } else{
@@ -165,7 +184,8 @@ function Seed(){
             this.thorns[i].update(enemies);
         }
     }
-    this.display = function(){
+
+    display(){
         noStroke();
         push();
         translate(this.position.x, this.position.y);
@@ -202,29 +222,18 @@ function Seed(){
 
         pop();
     }
-    this.changeSeedType = function(_st){ //very basic circular switching instead of a full menu
-        console.log(!_st);
-        if(!_st){
-            this.seedType++;
-            if(this.seedType > 3){
-                this.seedType = 0;
-            }
-        }else{
-            this.seedType = _st;
-            
-        }
-    }
-    this.displaySeed = function(){
-        this.calculateRotation();
 
+    displaySeed(){
+        this.calculateRotation();
+        
         ellipseMode(RADIUS);
         ellipse(0,0, this.r, this.r);
         fill(0);
 
         this.displayEye();
-        
     }
-    this.displayCrystalSeed = function(){
+
+    displayCrystalSeed(){
         this.calculateRotation();
         
         stroke(226, 230, 233, this.opacity);
@@ -247,16 +256,16 @@ function Seed(){
         
 
         this.displayEye();
-        
     }
-    this.displayEye = function(){
+
+    displayEye(){
         fill(255, 255, 255,this.opacity);
         ellipse(0,0,9,6);
         fill(94, 42, 85,this.opacity);
         ellipse(0,0,4,4);
     }
 
-    this.calculateRotation = function(){
+    calculateRotation(){
         if(!this.inAir){
             angleMode(DEGREES);
             let rotationSpeed = map(this.velocity.x, -3, 3, -4, 4);
@@ -269,22 +278,14 @@ function Seed(){
             angleMode(RADIANS);
         }
     }
-    
-    this.displayThorns = function(){
-        //Change angle so that it updates based on the number of thorns.
-        //this needs to be changed so that each thron save it's own angle, that way
-        //if I lose one the others will stay in place until I gain another. like the real game
+
+    displayThorns(){
         for (var i = 0; i < this.thorns.length; i++) {
             this.thorns[i].display();
-            // rotate(2 * PI/this.thorns.length);
-            // fill(102, 61, 36);
-            // rect(22, 0, 12, 4);
-            // fill(160,160,160);
-            // triangle(28, -6, 28, 6, 36, 0);
         }
     }
 
-    this.displayStats = function(){
+    displayStats(){
         push();
         resetMatrix();
         fill(179, 112, 218);
@@ -297,5 +298,4 @@ function Seed(){
         text('Crystals: ' + this.crystals, 10,height-40, 100, 30);
         pop();
     }
-
 }

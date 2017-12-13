@@ -1,23 +1,25 @@
-function Crystal(_x, _y, _r, _val){
-    this.desiredX = _x + random(-_r*1.25, _r*1.25);
-    this.desiredY = _y + random(-_r*1.25, _r*1.25);
-    this.x = _x;
-    this.y = _y;
-    this.r = 4;
-    this.value = _val || 1;
-    this.acc = createVector(0,0);
-    this.vel = createVector(0,0);
-    this.maxSpeed = 0.5;
-    this.collectible = false;
-    this.remove = false;
+class Crystal{
+    constructor(_x, _y, _r, _val){
+        this.desiredX = _x + random(-_r*1.25, _r*1.25);
+        this.desiredY = _y + random(-_r*1.25, _r*1.25);
+        this.x = _x;
+        this.y = _y;
+        this.r = 4;
+        this.value = _val || 1;
+        this.acc = createVector(0,0);
+        this.vel = createVector(0,0);
+        this.maxSpeed = 0.5;
+        this.collectible = false;
+        this.remove = false;
+    }
 
-    this.run = function(){
+    run(){
         let seekForce = this.seek(createVector(this.desiredX, this.desiredY));
         this.applyForce(seekForce);
         this.update();
         this.display();
     }
-    this.update = function(){
+    update(){
         this.vel.add(this.acc);
         this.x += this.vel.x;
         this.y += this.vel.y;
@@ -25,7 +27,7 @@ function Crystal(_x, _y, _r, _val){
         this.acc.mult(0);
     }
 
-    this.seek = function(target){
+    seek(target){
         var desired = p5.Vector.sub(target, createVector(this.x, this.y));
         
         desired.setMag(this.maxSpeed);
@@ -44,21 +46,21 @@ function Crystal(_x, _y, _r, _val){
 
     }
 
-    this.applyForce = function(force) {
+    applyForce(force) {
         this.acc.add(force);
     }
 
-    this.getValue = function(){
+    getValue(){
         return this.value;
     }
 
-    this.getObjName = function(){
+    getObjName(){
         return 'crystal';
     }
-    this.canCollect = function(){
+    canCollect(){
         return this.collectible;
     }
-    this.display = function(){
+    display(){
         push();
         translate(this.x, this.y);
 

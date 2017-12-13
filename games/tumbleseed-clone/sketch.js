@@ -72,7 +72,7 @@ function draw(){
         }
         //Render last so they draw over everything
         tumble.run();
-        seed.run();
+        seed.run(holes, itemSquares, objects);
         finishZone.display();
     }
 }
