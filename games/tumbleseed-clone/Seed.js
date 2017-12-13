@@ -76,6 +76,9 @@ function Seed(){
                         //thorn
                         case 1: 
                         this.thorns.push(new Thorn(this.thorns.length));
+                        for (let i = 0; i < this.thorns.length; i++) {
+                            this.thorns[i].updateAngle(i, this.thorns.length);
+                        }
                         itemSquares[i].setCollected();
                         break;
                         //crystal
@@ -159,7 +162,7 @@ function Seed(){
         } 
 
         for (var i = 0; i < this.thorns.length; i++) {
-            this.thorns[i].update();
+            this.thorns[i].update(enemies);
         }
     }
     this.display = function(){
@@ -272,12 +275,12 @@ function Seed(){
         //this needs to be changed so that each thron save it's own angle, that way
         //if I lose one the others will stay in place until I gain another. like the real game
         for (var i = 0; i < this.thorns.length; i++) {
-            //this.thorns[i].display();
-            rotate(2 * PI/this.thorns.length);
-            fill(102, 61, 36);
-            rect(22, 0, 12, 4);
-            fill(160,160,160);
-            triangle(28, -6, 28, 6, 36, 0);
+            this.thorns[i].display();
+            // rotate(2 * PI/this.thorns.length);
+            // fill(102, 61, 36);
+            // rect(22, 0, 12, 4);
+            // fill(160,160,160);
+            // triangle(28, -6, 28, 6, 36, 0);
         }
     }
 
