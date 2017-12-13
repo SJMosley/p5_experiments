@@ -58,24 +58,29 @@ function draw(){
             translate(0, -tumble.tumblePointUnderSeed.y + (height * 0.6));
         }
     
-        for (let i = 0; i < holes.length; i++) {
-            holes[i].display();
-        }
-        for (let i = 0; i < itemSquares.length; i++) {
-            itemSquares[i].display();
-        }
-        for (let i = 0; i < objects.length; i++) {
-            objects[i].run();
-        }
-        for (let i = 0; i < enemies.length; i++) {
-            enemies[i].run();
-        }
-        //Render last so they draw over everything
-        tumble.run();
-        seed.run(holes, itemSquares, objects);
-        finishZone.display();
+        runObjects();
+
     }
 }
+function runObjects(){
+    for (let i = 0; i < holes.length; i++) {
+        holes[i].display();
+    }
+    for (let i = 0; i < itemSquares.length; i++) {
+        itemSquares[i].display();
+    }
+    for (let i = 0; i < objects.length; i++) {
+        objects[i].run();
+    }
+    for (let i = 0; i < enemies.length; i++) {
+        enemies[i].run();
+    }
+    //Render last so they draw over everything
+    tumble.run();
+    seed.run(holes, itemSquares, objects);
+    finishZone.display();
+}
+
 
 function checkHeldKeys(){
     if(keyIsDown(81) || keyIsDown(87) || keyIsDown(69)){
