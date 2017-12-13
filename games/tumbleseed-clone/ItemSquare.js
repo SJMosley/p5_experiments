@@ -3,11 +3,11 @@ class ItemSquare{
         this.x = _x;
         this.y = _y;
         this.r = 20;
-        let isCollected = false;
+        this.collected = false;
     }
 
     display(){
-        if(isCollected){
+        if(this.collected){
             fill(102, 161, 77);
         } else{
             fill(65, 72, 97);
@@ -22,10 +22,10 @@ class ItemSquare{
     }
 
     setCollected(){
-        isCollected = true;
+        this.collected = true;
     }
     isCollected(){
-        return isCollected;
+        return this.collected;
     }
 
     createCrystals(){
