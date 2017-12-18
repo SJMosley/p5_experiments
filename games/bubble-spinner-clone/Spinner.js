@@ -99,3 +99,8 @@ class Spinner{
         }
     }
 }
+
+
+
+//let newX = cos(this.angle) * this.distance;
+//let newY = sin(this.angle) * this.distance;
