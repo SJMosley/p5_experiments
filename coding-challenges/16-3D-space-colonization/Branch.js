@@ -15,10 +15,14 @@ class Branch{
 
     show(i){
         if(this.parent){
-            stroke(255);
+            let sr = map(this.pos.x, 0, width, 50, 255);
+            let sg = map(this.pos.y, 0, height, 50, 255);
+            let sb = map(this.pos.z, 0, width, 50, 255);
+
+            stroke(sr, sg, sb);
             let sw = map(i, 0, tree.branches.length, 10, 0);
             strokeWeight(sw);
-            line(this.parent.pos.x, this.parent.pos.y, this.pos.x, this.pos.y);
+            line(this.parent.pos.x, this.parent.pos.y, this.parent.pos.z, this.pos.x, this.pos.y, this.pos.z);
         }
     }
 

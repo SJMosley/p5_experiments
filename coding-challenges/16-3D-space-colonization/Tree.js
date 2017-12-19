@@ -26,6 +26,8 @@ class Tree{
         //build up initial tree stalk;
         while(!found){
             for (let i = 0; i < this.leaves.length; i++) {
+                // console.log({current});
+                // console.log(this.leaves[i]);
                 let d = p5.Vector.dist(current.pos, this.leaves[i].pos);
                 if(d < max_dist){
                     found = true;
