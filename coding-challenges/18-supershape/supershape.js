@@ -25,8 +25,8 @@ class supershape{
         this.n3 = n3;
         this.radius = radius;
 
-        for (let i = 0; i < this.detail * angleSlider.value(); i++) {
-            let angle = i * (PI * angleSlider.value())/this.detail;
+        for (let i = 0; i < this.detail * rotationSlider.value(); i++) {
+            let angle = i * (PI * rotationSlider.value())/this.detail;
             // let angle = i * TWO_PI/this.detail;
             let point = this.getPoint(angle);
             newPoints.push(point);
