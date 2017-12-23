@@ -13,7 +13,10 @@ function setup(){
     frameRate(frameSlider.value());
     snake = new Snake();
     score = 0;
-    collectibles.push(new Collectible());
+
+    for (let i = 0; i < 5; i++) {
+        collectibles.push(new Collectible());
+    }
 }
 function draw(){
     background(40);

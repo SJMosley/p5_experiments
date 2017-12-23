@@ -15,6 +15,7 @@ let levelHeight;
 let accX;
 let accY;
 let accZ;
+
 function setup(){
     if(windowWidth > 600){
         canvas = createCanvas(600,windowHeight*2/3);
