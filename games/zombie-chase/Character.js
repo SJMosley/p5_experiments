@@ -5,6 +5,7 @@ class Character{
         this.vel = createVector(0,0);
         this.cloakTimer = 0;
         this.cloakActive = false;
+        this.score = 0;
     }
 
     run(){

@@ -5,7 +5,7 @@ class Zombie{
         this.acc = createVector(0,0);
         this.maxSpeed = 1.5;
         this.dying = false;
-        this.deathTimer = 500;
+        this.deathTimer = 120;
         this.remove = false;
     }
     run(){
@@ -41,7 +41,9 @@ class Zombie{
         rotate(this.vel.heading() + PI/2);
         if(this.dying){
             fill(148, 151, 159);
-            ellipse();
+            ellipse(0,0, 10,10);
+            ellipse(-8,4, 6,6);
+            ellipse(2,-6, 5,4);
         } else{
             fill(83, 102, 59);
             beginShape();
@@ -59,15 +61,18 @@ class Zombie{
 
             if(this.deathTimer < 0){
                 this.remove = true;
+                char.score += 1;
             }
+        } else{
+            this.vel.add(this.acc);
+            this.pos.add(this.vel);
+    
+            this.acc.mult(0);
         }
-        this.vel.add(this.acc);
-        this.pos.add(this.vel);
-
-        this.acc.mult(0);
     }
 
     checkWindow(){
+        //should not be hardcoded, but it is
         if(this.pos.x < 225&&
             this.pos.x > 175&&
             this.pos.y < 335&&
@@ -77,13 +82,11 @@ class Zombie{
     }
 
     checkPlayer(){
-        if(char.pos.x - 10 < this.pos.x &&
-            char.pos.x + 10 > this.pos.x &&
-            char.pos.y - 10 < this.pos.y &&
-            char.pos.y + 10 > this.pos.y){
-                console.log('happening');
-            char.health -= 1;
-            this.remove = true;
+        if(!this.dying){
+            if(dist(char.pos.x, char.pos.y, this.pos.x, this.pos.y) < 10){
+                char.health -= 1;
+                this.remove = true;
+            }
         }
     }
 }

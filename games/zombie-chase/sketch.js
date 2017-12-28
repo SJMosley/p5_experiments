@@ -26,13 +26,13 @@ function draw(){
         for (let i = 0; i < zombies.length; i++) {
             zombies[i].run();
         }
-    
+        
         for (let i = zombies.length - 1; i >= 0; i--) {
             if(zombies[i].remove){
                 zombies.splice(i, 1);
             }
         }
-    
+        
         if(timer < 0){
             timer = timerSet;
             timerSet -= 30;
@@ -43,7 +43,8 @@ function draw(){
         } else{
             timer -= 100/6;
         }
-
+        
+        gameState.display();
         gameState.checkExit();
     }
 }
@@ -104,8 +105,8 @@ function keyPressed(){
     }
 }
 
-function mousePressed(){
-    zombies.push(new Zombie(mouseX, mouseY));
+function mouseDragged(){
+    //zombies.push(new Zombie(mouseX, mouseY));
 }
 
 function gameActive(){
@@ -126,7 +127,11 @@ function gameActive(){
     }
 
     this.display = function(){
-
+        fill(255)
+        stroke(255);
+        textSize(20);
+        textFont('Helvetica');
+        text('Score: ' + char.score, width*6/8, 24);
     }
 }
 
@@ -162,20 +167,8 @@ function gameLost(){
 }
 
 function resetGame(){
-    translate(0, height*3);
-    if(windowWidth > 600){
-        canvas = createCanvas(600,windowHeight*2/3);
-    } else{
-        canvas = createCanvas(windowWidth - 32,windowHeight*2/3);
-    }
-    canvas.parent(select('#gameCanvas'));
-    seed = new Seed();
-    tumble = new Tumble();
-    finishZone = new FinishZone();
+    background(40);
     gameState = new gameActive();
-    holes = [];//reset holes
-    itemSquares = [];
-
-    generateHoles();
-    generateItemSquares();
+    house = new House();
+    char = new Character();
 }
