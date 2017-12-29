@@ -110,8 +110,9 @@ function draw(){
     updatePixels();
 }
 
-function keyPressed(){
-    if(key === ' '){
+document.addEventListener("keydown", function(e) {
+    if (e.keyCode == 83 && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)) {
+      e.preventDefault();
         let name = 'julia-set';
         if(imagesSaved != 0){
             name += '_';
@@ -121,7 +122,7 @@ function keyPressed(){
         }
         imagesSaved += 1;
     }
-}
+  }, false);
 
 function resetFocus(){
     canvas.focus();

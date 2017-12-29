@@ -9,7 +9,7 @@ class supershape{
         // this.a = a || 100;
         // this.b = b || 100;
         this.points = [];
-        for (let i = 0; i < this.detail; i++) {
+        for (let i = 0; i <= this.detail; i++) {
         //for (let angle = 0; angle < TWO_PI; angle+=0.1) {
             let angle = i * TWO_PI/this.detail;
             let point = this.getPoint(angle);
@@ -25,7 +25,7 @@ class supershape{
         this.n3 = n3;
         this.radius = radius;
 
-        for (let i = 0; i < this.detail * rotationSlider.value(); i++) {
+        for (let i = 0; i <= this.detail * rotationSlider.value(); i++) {
             let angle = i * (PI * rotationSlider.value())/this.detail;
             // let angle = i * TWO_PI/this.detail;
             let point = this.getPoint(angle);
@@ -52,8 +52,9 @@ class supershape{
         t2 = abs(t2);
         t2 = pow(t2, this.n3);
 
-        r = pow((t1 + t2), (1/this.n1)) * this.radius;
+        r = 1 / (pow((t1 + t2), (1/this.n1)));
 
+        r *= this.radius;
         if(abs(r) == 0){
             x = 0;
             y = 0;
@@ -67,7 +68,11 @@ class supershape{
 
     display(){
         noFill();
-        stroke(255);
+        if(alphaCheck.checked()){
+            stroke(255, 5);
+        } else{
+            stroke(255);
+        }
         beginShape();
         for (let i = 0; i < this.points.length; i++) {
             vertex(this.points[i].x, this.points[i].y);
