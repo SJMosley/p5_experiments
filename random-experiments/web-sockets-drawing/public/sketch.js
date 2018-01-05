@@ -36,7 +36,7 @@ function mouseDragged(){
 
         socket.emit('mouse', data);
         // console.log(`Sending ${mouseX}, ${mouseY}`);
-        fill(255);
+        fill(col.r, col.g, col.b);
         ellipse(mouseX, mouseY, 10,10);
     }
 }
