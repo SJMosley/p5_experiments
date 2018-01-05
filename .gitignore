@@ -1,2 +1,4 @@
 .DS_Store
 nature_of_code/.DS_Store
+games/node_modules
+node_modules/
