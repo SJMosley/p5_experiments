@@ -6,10 +6,6 @@ console.log('My socket server is running');
 
 app.use(express.static('public'));
 
-app.get('/', () => {
-
-})
-
 let socket = require('socket.io');
 let io = socket(server);
 
