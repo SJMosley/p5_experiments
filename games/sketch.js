@@ -10,7 +10,7 @@ function setup(){
     canvas.position('absolute', '0');
     canvas.style('z-index', '-1');
     
-    for(var i=1;i<rows;i++){
+    for(var i=1;i <= rows;i++){
         var x = i * (height/rows);
         for (var j = 1; j < columns; j++) {
             var y = j * (width/columns);
