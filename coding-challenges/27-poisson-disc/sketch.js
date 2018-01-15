@@ -6,6 +6,7 @@ let active;
 let w = r/Math.sqrt(2);
 let cols, rows;
 let ordered;
+let imagesSaved = 0;
 
 function setup(){
     canvas = createCanvas(500,500);
@@ -116,3 +117,17 @@ function mousePressed(){
 function mouseDragged(){
     active.push(createVector(mouseX, mouseY));
 }
+
+document.addEventListener("keydown", function(e) {
+  if (e.keyCode == 83 && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)) {
+    e.preventDefault();
+      let name = 'poisson-disc';
+      if(imagesSaved != 0){
+          name += '_';
+          save(name + imagesSaved + '.png');
+      } else{
+          save(name + '.png');
+      }
+      imagesSaved += 1;
+  }
+}, false);

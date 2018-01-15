@@ -1,6 +1,6 @@
 class Walker {
   constructor (pos, stuck) {
-    this.pos = pos || randomPoint();
+    this.pos = pos || randomOutsidePoint();
     this.stuck = stuck || false;
   }
 
@@ -27,14 +27,19 @@ class Walker {
   }
 
   draw(index, others){
-    let  hu = map(index, 0, others.length, 0, 255);
-    fill(hu, 255, 255);
+    if(arguments.length == 2){
+      let  hu = map(index, 0, others.length, 0, 360);
+      fill(hu, 255, 255);
+    } else{
+      fill(255,255,255);
+    }
+
     noStroke();
     ellipse(this.pos.x, this.pos.y, r * 2, r * 2);
   }
 }
 
-function randomPoint(){
+function randomOutsidePoint(){
     let i = floor(random(4));
     let x,y;
     switch(i){  //clockwise
